@@ -25,7 +25,7 @@ function prepareFrenchToast(){
     });
     return promise
 }
-function prepareCoffee(callback){
+function prepareCoffee(){
     let promise = new Promise(function(resolve, reject) {
         setTimeout(()=>{
             console.log("Prepare Coffee");
@@ -35,32 +35,19 @@ function prepareCoffee(callback){
     return promise
 }
 
-let promise = prepareFood();
-//console.log("Promise = ", promise);
-promise.then(function (value){
-    console.log("Food is Ready callback = ", value);
-    return prepareFrenchToast();
-})
-.then(function (frenchToastValue){
-    console.log("French Toast is Ready callback = ", frenchToastValue);
-    return prepareCoffee();
-})
-.then(function (coffeeValue){
-    console.log("Coffee is Ready callback = ", coffeeValue);
-})
-.catch(function (error){
-    console.log("Error = ", error)
-});
-/*
-prepareFood(function(value){
-    console.log("Food is Ready callback = ", value);
-    prepareFrenchToast(function(value){
-        console.log("French Toast is Ready callback = ", value);
-        prepareCoffee(function(value){
-            console.log("coffee is Ready callback = ", value);
-        });
-    })
-});
-*/
+async function startProcess(){
+    try {
+        let foodValue = await prepareFood(2);
+        console.log("Food ", foodValue);
+        let frenchToastValue = await prepareFrenchToast();
+        console.log("Toast ", frenchToastValue);
+        let coffeeValue = await prepareCofee();
+        console.log("Coffee ", coffeeValue);
+    }
+    catch(error) {
+        console.log("Error in catch = ", error);
+    }
+}
+startProcess();
 
 console.log("After Prepare food dinner is ready");
